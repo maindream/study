@@ -14,7 +14,7 @@ paragraph 3
 ...
 
 <!-- image -->
-![](image_path)
+![Image](image_path)
 
 <!-- table -->
 | header 1 | header 2 | header 3 |
