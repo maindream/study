@@ -48,7 +48,7 @@ Fixed Windows 방식은 스트리밍으로 들어오는 데이터를 일정 시�
 
 사용자의 명령 호출, 데이터 갱신이나 전송 완료 등을 Activity라고 할 때, 이러한 Activity들이 시간상 연속적으로 발생하게 되는데, 이렇게 다수의 Activity를 일정 기간을 기준으로 하나로 묶은 것을 Session이라고 한다. 서로 다른 두 Session은 Activity가 전혀 발생하지 않은 기간에 의해 나뉘게 된다. 하나의 Batch 안에 흩뿌려진 데이터들을 이러한 Session 단위로 묶어서 함께 처리한다.
 
-![](../resources/images/data_processing_2_2.jpg)
+![](../resources/images/data_processing_4.jpg)
 
 그런데, 이 방식은 구현 시 고려사항이 있다. 특정 기간을 기준으로 Batch를 나누는 경우, 서로 다른 두 개 이상의 Batch에 하나의 Session에 속한 데이터들이 분리되어 각각 저장되는 문제가 발생할 수 있다. 이를 해결하기 위해 Batch의 크기를 늘리면 Session이 분리될 확률은 감소하지만, 응답 시간이 증가하기 때문에 실시간성이 떨어지게 된다. 이 문제를 완화하기 위해, 이전 Batch에서 불완전하게 처리된 Session들을 이후 Batch의 Session과 연결시켜주는 방법도 존재하지만, 구현이 매우 복잡하며 추가적인 로직으로 인한 성능 저하가 나타날 수도 있다.
 
@@ -66,7 +66,7 @@ Time agnostic이란, 데이터가 시간 속성을 가지고 있지 않는 경�
 
 들어오는 데이터 중 특정 데이터만 필터링해서 저장하는 구조이다.
 
-![](../resources/images/data_processing_4.png)
+![](../resources/images/data_processing_5.png)
 
 예를 들면, 웹에서 로그 데이터를 수집할 때, 특정 IP나 국가 대역에서 들어오는 데이터만 필터링해서 저장하는 경우이다.
 
@@ -74,7 +74,7 @@ Time agnostic이란, 데이터가 시간 속성을 가지고 있지 않는 경�
 
 Inner join은 두 개 이상의 Unbounded data로 들어오는 값을 서로 비교하여 매칭해서 처리하는 방식이다.
 
-![](../resources/images/data_processing_5.png)
+![](../resources/images/data_processing_6.png)
 
 모바일 뉴스 앱과 지도 앱의 예를 살펴보자. 뉴스 앱에서는 사용자가 어떤 컨텐츠를 보는지에 대한 데이터를 수집/전송하고, 지도 앱에서는 현재 사용자의 위치를 수집/전송한다고 하자.
 
@@ -108,7 +108,7 @@ Sliding Window 방식은 Window를 움직이는 개념이다. 현재 시간으�
 
 이렇게 추출하는 간격을 Period(M), 그리고 추출하는 기간을 Length 또는 Size(N)라고 한다.
 
-![](../resources/images/data_processing_6.png)
+![](../resources/images/data_processing_7.png)
 
 **4.2.5.3 Session Windows**
 
@@ -116,7 +116,7 @@ Session Windows 방식은 사용자가 서비스를 사용하다가 일정 시�
 
 예를 들어, 세션의 Timeout이 20분이라고 가정하자. 세션이 11시에 시작된 뒤에 11:01, 11:15, 11:40에 데이터가 갱신되었다면, 11:15 이후에 20분동안(11:35까지) 데이터가 갱신되지 않았기 때문에, 11:00, 11:01, 11:15은 하나의 세션으로 처리되고, 11:40은 새로운 세션 시작으로 여겨지게 된다.
 
-![](../resources/images/data_processing_7.png)
+![](../resources/images/data_processing_8.png)
 
 **4.2.5.4 Processing time based windowing**
 
@@ -126,7 +126,7 @@ Processing time을 기준으로 Windowing을 하여 데이터를 처리하는 �
 
 Event time을 기준으로 데이터를 처리하는 방식이다. 데이터가 순서대로 들어오지 않는 경우가 대다수이고, 또한 데이타의 도착 시간또한 일정하지 않기 때문에 어려운 문제이다.
 
-![](../resources/images/data_processing_8.png)
+![](../resources/images/data_processing_9.png)
 
 좌측 흰색 화살표 처럼 12:00 ~ 13:00에 서버에 도착한 데이터가 실제로는 11:00 ~ 12:00에 발생한 데이터일 경우, 11:00 ~ 12:00의 Window에 데이터를 반영해주어야 한다.
 
@@ -138,15 +138,17 @@ Event time을 기준으로 데이터를 처리하는 방식이다. 데이터가 
 
 ### References
 
-http://bcho.tistory.com/1119
-
 https://www.oreilly.com/ideas/the-world-beyond-batch-streaming-101
+
+http://bcho.tistory.com/1119
 
 https://cloud.google.com/dataflow/model/windowing#sliding-time-windows
 
 https://cloud.google.com/dataflow/model/windowing#session-windows
 
 ### Further readings
+
+https://www.oreilly.com/ideas/the-world-beyond-batch-streaming-102
 
 [Storm을 이용한 근사치 구하기](https://pkghosh.wordpress.com/2014/09/10/realtime-trending-analysis-with-approximate-algorithms/)
 
