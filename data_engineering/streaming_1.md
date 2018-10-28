@@ -28,11 +28,11 @@
 
 이 아이디어에 더해 첨언하자면, 사실상 잘 디자인된 스트리밍 시스템은 이론적으로 배치 시스템의 기능적인 상위호환이 될 수 있다고 생각한다. 스트리밍 시스템으로 배치 시스템을 이기려면, 정확성과 시간에 대한 추론이라는 두 마리 토끼를 잡아야 한다.
 
-** 2.2 Correctness**
+**2.2 Correctness**
 
 스트리밍 시스템이 정확성을 갖게 된다면, 배치 시스템과 동등한 지위를 얻게 된다. 정확성 보장의 핵심은 일관된 스토리지 저장소에 있다. 스트리밍 시스템은 전체 시간의 흐름 속에서 끊임 없는 상태(State)의 변화를 기록(Checkpointing)해둘 수 있는 방법이 필요하다. (참고: [Jay Krep's Why local state is a fundamental primitive in stream processing](https://www.oreilly.com/ideas/why-local-state-is-a-fundamental-primitive-in-stream-processing)) 시스템 장애의 관점에서도 일관성을 충분히 유지할 수 있도록 잘 디자인되어야 한다. 적어도 정확히 한 번의 처리에 있어서, 강력한 일관성을 보장하는 것이 배치 시스템과의 경쟁에서 승리할 수 있는 토대이다. 처음 Spark 스트리밍이 처음 빅 데이터 필드에 출현했을 때, 이러한 일관성을 보장하도록 스트리밍 시스템들을 인도하는 등대같은 존재가 되었다. 다행스럽게도 이후에 비약적인 발전이 이루어졌다.
 
-** 2.3 Tools for reasoning about time**
+**2.3 Tools for reasoning about time**
 
 스트리밍 시스템에 시간에 대한 추론을 할 수 있는 도구가 제공된다면, 배치 시스템을 앞서게 된다. 시간상 순차적으로 발생하는 Unbounded data가 네트워크 지연으로 인해 시스템에 전송되면서 순서가 뒤죽박죽이 되기 때문에, 실제 데이터의 발생 시간을 추론해주는 도구는 필수적이다. 이에 대한 심층적인 이해에 앞서, 시간 도메인(Time domains)에서 핵심적인 개념들을 짚고 넘어가도록 하겠다. 
 
